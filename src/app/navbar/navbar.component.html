@@ -1,0 +1,41 @@
+<mat-drawer-container class="container" autosize >
+    <!-- Will be triggered by (click) = "drawer.toggle()" -->
+    <mat-drawer #drawer class="sidenav">
+            <button color="primary" mat-button routerLink="/home">Home</button>
+    </mat-drawer>
+
+    <div class="sidenav-content">
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <!-- 
+                  drawer.toggle(): will call #drawer and will bring the sidenav into view
+                 
+                <button mat-icon-button (click) = "drawer.toggle()">
+                        <mat-icon>menu</mat-icon>
+                </button>
+                -->
+                <span>Stock Portfolio</span>
+                <span class="spacer"></span>
+                <!--
+                   How every button is implemented [matMenuTriggerFor] is bindded to button menu; will be triggered by menu
+                -->
+                <button mat-icon-button [matMenuTriggerFor] = "menu">
+                    <mat-icon>perm_identity</mat-icon>
+                </button>
+                
+                <mat-menu #menu="matMenu" >
+                  <button mat-menu-item routerLink="/user">
+                    <mat-icon>person</mat-icon>
+                    <span>User Info</span>
+                  </button>
+                  <button mat-menu-item (click)="logOut()">
+                    <mat-icon>directions_run</mat-icon>
+                    <span>Log Out</span>
+                  </button>
+                </mat-menu>
+
+            </mat-toolbar-row>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </div>
+</mat-drawer-container>

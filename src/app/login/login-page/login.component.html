@@ -1,0 +1,62 @@
+<div class = "medium-list">
+    <div class="list-viewer-wrapper">
+      <div class="list-header-title">Log-in</div>
+        <!-- Error that will display if the entire form is not valid -->
+      
+      <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
+  
+        <!-- email Field -->
+        <div class="form-container">
+          <mat-form-field>
+  
+              <!-- Associate key from ts file: email -->
+              <input 
+                  formControlName = "email"
+                  matInput
+                  id="email" 
+                  type="email" 
+                  class="form-control"
+                  placeholder="E-Mail">
+          </mat-form-field>
+          <div *ngIf="email.touched && email.invalid" 
+                class="alert">
+                <mat-error *ngIf="email.errors.required">Email is <strong>required!</strong></mat-error>
+          </div>
+        </div>
+        
+        <!-- Password Field -->
+        <div class="form-container">
+            <mat-form-field>
+    
+                <input 
+                    formControlName = "password"
+                    matInput
+                    id="password" 
+                    type="text" 
+                    class="form-control"
+                    placeholder="Password">
+            </mat-form-field>
+            <div *ngIf="password.touched && password.invalid" 
+                  class="alert alert-danger">
+                  <mat-error *ngIf="password.errors.required">Password <strong>required!</strong></mat-error>
+            </div>
+        </div>
+          
+        <div class="form-container">
+            <div *ngIf="invalidCredentials" class="alert alert-danger">
+              <mat-error>Invalid Credentials</mat-error>
+            </div>
+            <button class="form-button" mat-raised-button color = "primary" type="submit" [disabled] = "!form.valid">Login</button>
+            <br />
+            <button class="form-button" mat-raised-button color = "primary" routerLink="/register" type="button">Register</button>
+          </div>
+      </form>
+  
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
