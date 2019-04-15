@@ -15,7 +15,15 @@ export class AuthInterceptor implements HttpInterceptor {
         //If the request doesn't need auth; use this.
         //req.headers.get('No-Auth') :  This checks the header of the request
         //next.handle(req.clone()) : clone the whole request and send it
-        if (req.headers.get('No-Auth') == "True") return next.handle(req.clone());
+        if (req.headers.get('No-Auth') == "True") {
+            return next.handle(req.clone());
+        }
+
+        if (req.headers.get('IEX') == "True") {
+            return next.handle(req.clone({
+                headers: req.headers.delete("IEX")
+            }));
+        }
 
         //If we do need auth, first if will fail.
         //localStorage.getItem('accessToken') : Will check if there is a token in local storage

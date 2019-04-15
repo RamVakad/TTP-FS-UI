@@ -14,17 +14,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [HomeComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     HomeRoutingModule,
     //Angular Material
     MatTabsModule,
     MatCardModule,
     MatIconModule,
+    MatInputModule,
     MatButtonModule,
     MatListModule,
     MatExpansionModule,

@@ -2,14 +2,72 @@
 
       <mat-tab label="Portfolio">
         <ng-template matTabContent>
-          <ng-container *ngFor = "let stock of portfolio">
-            
-          </ng-container>
+          <br />
+          <span class = "mat-headline">Total Portfolio Value: ${{ getPortfolioValue() }}</span>
+          <br />
+          <mat-list>
+              <ng-container *ngFor = "let stock of portfolio">
+                  <mat-list-item>
+                    <span class = "mat-title">{{ stock.ticker }} - {{ stock.amount }} Shares</span>
+                    <span flex></span>
+                    <span class = "mat-title pull-right" >${{ getCurrentPrice(stock.ticker) }}</span>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+              </ng-container>
+            </mat-list>
+          
         </ng-template>
       </mat-tab>
 
       <mat-tab label="Buy">
         <ng-template matTabContent>
+          
+          <div class = "medium-list">
+          <div class="list-viewer-wrapper">
+            <form [formGroup] = "orderForm" (ngSubmit) = "buyStock()">
+  
+                <!-- email Field -->
+                <div class="form-container">
+                  <mat-form-field>
+                      <input 
+                          formControlName = "ticker"
+                          matInput
+                          id="ticker" 
+                          type="text" 
+                          class="form-control"
+                          placeholder="Ticker">
+                  </mat-form-field>
+                  <div *ngIf="ticker.touched && ticker.invalid" 
+                        class="alert">
+                        <mat-error *ngIf="ticker.errors.required">Ticker is <strong>required!</strong></mat-error>
+                  </div>
+                </div>
+                
+                <!-- Password Field -->
+                <div class="form-container">
+                    <mat-form-field>
+            
+                        <input 
+                            formControlName = "amount"
+                            matInput
+                            id="amount" 
+                            type="text" 
+                            class="form-control"
+                            placeholder="Amount">
+                    </mat-form-field>
+                    <div *ngIf="amount.touched && amount.invalid" 
+                          class="alert alert-danger">
+                          <mat-error *ngIf="amount.errors.required">Amount is <strong>required!</strong></mat-error>
+                    </div>
+                </div>
+                  
+                <div class="form-container" layout-align="center">
+                    <button class="form-button" mat-raised-button color = "primary" type="submit" [disabled] = "!orderForm.valid">Buy</button>
+                    <br />
+                  </div>
+              </form>
+            </div>
+          </div>
 
         </ng-template>
       </mat-tab>
@@ -22,6 +80,17 @@
 
       <mat-tab label="Transactions">
           <ng-template matTabContent>
+
+              <br />
+              <br />
+              <mat-list>
+                  <ng-container *ngFor = "let txn of transactions">
+                      <mat-list-item>
+                        <span class = "mat-title">{{ txn.type }} - {{ txn.ticker }} - {{ txn.amount }} Shares @ {{ txn.price }} - {{ txn.date }}</span>
+                      </mat-list-item>
+                      <mat-divider></mat-divider>
+                  </ng-container>
+                </mat-list>
               
           </ng-template>
       </mat-tab>
