@@ -68,8 +68,7 @@ export class RegisterComponent implements OnInit{
       .subscribe(
         (token : string) => {
           localStorage.setItem('accessToken', token);
-          this.router.navigate(['/home']);
-          console.log ( this.user.email + " successfully signed-in."); 
+          this.userService.fetchDetailsAndRouteHome(this.router);
           return;
         },
         (res: HttpErrorResponse) => {

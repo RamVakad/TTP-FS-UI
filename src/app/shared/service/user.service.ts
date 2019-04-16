@@ -29,6 +29,9 @@ export class UserService {
     this.http.get<UserDetailsModel>( this.rootUrl +"/me").subscribe(
       (userData: UserDetailsModel) => {
         this.userData = userData;
+      },
+      (res: HttpErrorResponse) => {
+        
       }
     ); 
   }
@@ -38,6 +41,9 @@ export class UserService {
       (userData: UserDetailsModel) => {
         this.userData = userData;
         router.navigate(['/home']);
+      },
+      (res: HttpErrorResponse) => {
+
       }
     ); 
   }
@@ -55,7 +61,7 @@ export class UserService {
     var requestedUrl = this.rootUrl + "/signUp";
 
     //Testing url 
-    console.log(requestedUrl);
+    //console.log(requestedUrl);
 
     //requestUrl: endpoint
     //body: Needed, but not used

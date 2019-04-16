@@ -9,10 +9,16 @@
         
 
 
-        <mat-list style="padding:0">
+        <mat-list style="padding:0" *ngIf = "portfolio">
+          <ng-container *ngIf = "portfolio.length == 0">
+              <mat-divider></mat-divider>
+                  <mat-list-item>
+                      <span class = "mat-body center">Hey {{ userService.getDetails().name }}! You can buy stock in the 'Trade' section to add to your portfolio.</span>
+                  </mat-list-item>
+          </ng-container>
           <ng-container *ngFor = "let stock of portfolio">
               <mat-divider></mat-divider>
-              <mat-expansion-panel style="background:#fafafa">
+              <mat-expansion-panel style="background:#fafafa" (click)="drawGraph(stock.ticker)">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{ stockService.getCompanyName(stock.ticker) }}
@@ -23,14 +29,15 @@
                   </mat-expansion-panel-header>
                   <mat-divider></mat-divider>
                   <br />
-                  <!--#0000008a
-                  -->
                   <ng-template matExpansionPanelContent>
+                      <div class = "mat-body grey">{{ stockService.getCompanyData(stock.ticker).exchange }} ({{ stock.ticker }})</div>
                       <span class = "mat-headline"  >${{ getCurrentPrice(stock.ticker) | number : '1.2-2' }}</span>
                       <span [ngClass]="(isHigher(stock.ticker))?'green':((isEqual(stock.ticker))?'grey':'red')"  >{{ getChange(stock.ticker) }} <i class="fas" [ngClass]="(isHigher(stock.ticker))?'fa-arrow-up':((isEqual(stock.ticker))?'':'fa-arrow-down')"></i></span>
-                      
+                      <br /><br />
+                      <canvas id="c_{{stock.ticker}}" width="100%" height="30%"></canvas>
+                      <br />
                       <mat-panel-description>
-                          <span class = "pull-left" >Opening Price: {{ stockService.getOhlc(stock.ticker).open.price }}</span>
+                          <span class = "pull-left" >Opening Price: ${{ stockService.getOhlc(stock.ticker).open.price }}</span>
                           <span class = "pull-right" >Shares Owned: {{ stock.amount }}</span>
                       </mat-panel-description>
                   </ng-template>

@@ -87,6 +87,9 @@ export class StockService implements OnDestroy {
   }
 
   updateChange(ticker: String) {
+    if (!this.ohlcInfo.has(ticker)) {
+      return;
+    }
     let openPrice =  this.getOhlc(ticker)['open']['price'];
     let diff = (this.getCurrentPrice(ticker) - openPrice);
     let ret: String = diff > 0 ? " + $" : " - $";

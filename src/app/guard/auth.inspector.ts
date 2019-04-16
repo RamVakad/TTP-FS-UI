@@ -44,9 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
                     }
                 }
                 );
-        }
-        //If no token, send user to login.
-        else {
+        } else { //If no token, send user to login.
             this.router.navigateByUrl('/login');
         }
     }
