@@ -27,7 +27,7 @@
                   -->
                   <ng-template matExpansionPanelContent>
                       <span class = "mat-headline"  >${{ getCurrentPrice(stock.ticker) | number : '1.2-2' }}</span>
-                      <span [ngClass]="(isHigher(stock.ticker))?'green':((isEqual(stock.ticker))?'grey':'red')"  >{{ getChange(stock.ticker) }}</span>
+                      <span [ngClass]="(isHigher(stock.ticker))?'green':((isEqual(stock.ticker))?'grey':'red')"  >{{ getChange(stock.ticker) }} <i class="fas" [ngClass]="(isHigher(stock.ticker))?'fa-arrow-up':((isEqual(stock.ticker))?'':'fa-arrow-down')"></i></span>
                       
                       <mat-panel-description>
                           <span class = "pull-left" >Opening Price: {{ stockService.getOhlc(stock.ticker).open.price }}</span>
@@ -115,6 +115,22 @@
       </div>
     </ng-template>
   </mat-tab>
+
+  <!--
+  <mat-tab label="Account">
+    <ng-template matTabContent>
+      <div class = "list-viewer-wrapper">
+        <div class="list-header-title">
+            <div class = "mat-headline center">{{userService.getDetails().name}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        
+      </div>
+    </ng-template>
+  </mat-tab>
+  -->
+  
+
 </mat-tab-group>
      
           

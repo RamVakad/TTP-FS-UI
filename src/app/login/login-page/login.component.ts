@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
     .subscribe(
       (token : string) => {
         localStorage.setItem('accessToken', token);
-        this.router.navigate(['/home']);
+        this.userService.fetchDetailsAndRouteHome(this.router);
         //console.log ( this.user.email + " successfully signed-in."); 
         return;
       },

@@ -58,7 +58,7 @@ export class StockService implements OnDestroy {
     if (this.ohlcInfo.has(ticker)) {
       return this.ohlcInfo.get(ticker);
     } else {
-      this.ohlcInfo.set(ticker, ticker);
+      this.ohlcInfo.set(ticker, { 'open': { 'price': 0 }});
       let reqHeader = new HttpHeaders({'IEX':'True'});
       let url = this.iexRoot + "/" + ticker + "/ohlc";
       this.http.get(url, { headers : reqHeader }).subscribe(

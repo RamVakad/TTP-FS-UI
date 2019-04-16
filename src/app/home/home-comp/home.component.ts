@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UserDetailsModel } from '../../shared/model/user/details.model';
 import { UserService } from '../../shared/service/user.service';
 import { PortfolioItem } from '../../shared/model/stock/portfolioItem.model';
 import { Order } from '../../shared/model/stock/order.model';
@@ -16,8 +15,8 @@ import { interval } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
-    userData: UserDetailsModel;
     portfolio: PortfolioItem[];
     transactions: Transaction[];
     portfolioValue: number;
@@ -51,16 +50,11 @@ export class HomeComponent implements OnInit {
   }
 
   getBalance() {
-    if (this.userData) return this.userData.balance; else return -1;
+    return this.userService.getDetails().balance;
   }
 
   fetchUserDetails() {
-    this.userService.getDetails().subscribe(
-      (userData: UserDetailsModel) => {
-        this.userData = userData;
-        //console.log(this.userData)
-      }
-    ); 
+    this.userService.fetchDetails();
   }
 
   fetchPortfolio() {
@@ -144,15 +138,15 @@ export class HomeComponent implements OnInit {
 
   buyStock() {
     this.order = Object.assign({}, this.orderForm.value);    
-    console.log("Buy Order: " + this.order.ticker + " - " + this.order.amount + " Shares");
+    //console.log("Buy Order: " + this.order.ticker + " - " + this.order.amount + " Shares");
     this.stockService.buyStock(this.order).subscribe(
         (success : boolean) => {
           if (success) {
-            console.log("Buy Successful.");
+            //console.log("Buy Successful.");
             this.refreshData();
             this.openSnackBar("Buy Successful.", "Close", 5000);
           } else {
-            console.log("Buy Failed: " + success);
+            //console.log("Buy Failed: " + success);
             this.openSnackBar("Buy Failed. Check Console", "Close", 5000);
           }
         },
@@ -169,15 +163,15 @@ export class HomeComponent implements OnInit {
 
   sellStock() {
     this.order = Object.assign({}, this.orderForm.value);    
-    console.log("Sell Order: " + this.order.ticker + " - " + this.order.amount + " Shares");
+    //console.log("Sell Order: " + this.order.ticker + " - " + this.order.amount + " Shares");
     this.stockService.sellStock(this.order).subscribe(
       (success : boolean) => {
         if (success) {
-          console.log("Sell Successful.");
+          //console.log("Sell Successful.");
           this.refreshData();
           this.openSnackBar("Sell Successful.", "Close", 5000);
         } else {
-          console.log("Sell Failed: " + success);
+          //console.log("Sell Failed: " + success);
           this.openSnackBar("Sell Failed. Check Console", "Close", 5000);
         }
       },
@@ -185,6 +179,8 @@ export class HomeComponent implements OnInit {
         console.log(res);
         if (res.status == 422) {
           this.openSnackBar("Insufficient # of shares.", "Close", 5000);
+        } else if (res.status == 400) {
+          this.openSnackBar("Invalid Ticker.", "Close", 5000);
         }
       }
     );

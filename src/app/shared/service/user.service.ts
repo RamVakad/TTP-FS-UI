@@ -10,8 +10,12 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class UserService {
   readonly rootUrl = 'http://127.0.0.1:8484/api/users';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.fetchDetails();
+  }
   
+  userData: UserDetailsModel;
+
   getToken(){
     return localStorage.getItem('accessToken')
   }
@@ -19,6 +23,27 @@ export class UserService {
   signIn(user: UserSignInModel) {
     var reqHeader = new HttpHeaders({'No-Auth':'True'});
     return this.http.post(this.rootUrl +"/signIn", user, { responseType: 'text', headers : reqHeader});
+  }
+
+  fetchDetails() {
+    this.http.get<UserDetailsModel>( this.rootUrl +"/me").subscribe(
+      (userData: UserDetailsModel) => {
+        this.userData = userData;
+      }
+    ); 
+  }
+
+  fetchDetailsAndRouteHome(router) {
+    this.http.get<UserDetailsModel>( this.rootUrl +"/me").subscribe(
+      (userData: UserDetailsModel) => {
+        this.userData = userData;
+        router.navigate(['/home']);
+      }
+    ); 
+  }
+
+  getDetails() {
+    return this.userData;
   }
 
   registerUser(user: UserSignUpModel) {
@@ -40,10 +65,6 @@ export class UserService {
 
   public isAuthenticated() : boolean {
     return localStorage.getItem('accessToken') !== null;
-  }
-
-  getDetails(): Observable<UserDetailsModel> {
-    return this.http.get<UserDetailsModel>( this.rootUrl +"/me");
   }
 
 }
