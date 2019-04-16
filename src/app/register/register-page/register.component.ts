@@ -3,6 +3,7 @@ import { Component , OnInit} from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserSignUpModel } from '../../shared/model/user/signup.model';
+import { MatSnackBar } from '@angular/material';
 
 //Needed to implement Reactive Forms
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
@@ -18,29 +19,37 @@ export class RegisterComponent implements OnInit{
   form: FormGroup;
 
   isRegiError : boolean;
-  constructor(
-    private userService : UserService,
-    private router : Router,
-    private formBuilder: FormBuilder) 
-    {
+  constructor(private snackBar: MatSnackBar,
+              private userService : UserService,
+              private router : Router,
+              private formBuilder: FormBuilder) {
       this.user = new UserSignUpModel();
     }
+
+  openSnackBar(message: string, action: string, time: number) {
+    this.snackBar.open(message, action, {
+      duration: time,
+    });
+  }
 
   ngOnInit() {
     this.form = this.formBuilder.group({
       name: [this.user.name, [
-        Validators.required
+        Validators.required,
+        Validators.minLength(4)
       ]],
        email: [this.user.email, [
-        Validators.required
+        Validators.required,
+        Validators.minLength(5),
+        Validators.pattern("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-z A-Z]{2,7}$")
       ]],
        password: [this.user.password, [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(8)
       ]], 
        password2: [this.user.password2, [
         Validators.required,
-        Validators.minLength(6)
+        Validators.minLength(8)
       ]] 
 
     });
@@ -51,7 +60,7 @@ export class RegisterComponent implements OnInit{
     this.user = Object.assign({}, this.form.value);
     
     if(this.user.password != this.user.password2){
-      alert("Passwords do not match!");
+      this.openSnackBar("Passwords do not match!", "Close", 2000);
     }
     else
     {
@@ -65,8 +74,7 @@ export class RegisterComponent implements OnInit{
         },
         (res: HttpErrorResponse) => {
           if (res.status == 422) {
-            alert("Invalid Email Provided.");
-            //this.invalidCredentials = true;
+            this.openSnackBar("E-Mail is already registered.", "Close", 2000);
           }
         }
         );

@@ -1,7 +1,7 @@
 <div class = "medium-list">
     <div class="list-viewer-wrapper">
       <div class="list-header-title">Log-in</div>
-      <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
+      <form [formGroup] = "form" (ngSubmit) = "onSubmit()" autocomplete="off">
   
         <!-- email Field -->
         <div class="form-container">
@@ -14,10 +14,6 @@
                   class="form-control"
                   placeholder="E-Mail" />
           </mat-form-field>
-          <div *ngIf="email.touched && email.invalid" 
-                class="alert">
-                <mat-error *ngIf="email.errors.required">Email is <strong>required!</strong></mat-error>
-          </div>
         </div>
         
         <!-- Password Field -->
@@ -27,14 +23,10 @@
                     formControlName = "password"
                     matInput
                     id="password" 
-                    type="text" 
+                    type="password" 
                     class="form-control"
                     placeholder="Password" />
             </mat-form-field>
-            <div *ngIf="password.touched && password.invalid" 
-                  class="alert alert-danger">
-                  <mat-error *ngIf="password.errors.required">Password is <strong>required!</strong></mat-error>
-            </div>
         </div>
           
         <div class="form-container">

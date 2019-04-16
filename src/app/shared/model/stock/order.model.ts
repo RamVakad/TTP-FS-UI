@@ -1,4 +1,4 @@
 export class Order {
-    public ticker: String = "";
-    public amount: Number = 0;
+    public ticker: String;
+    public amount: Number;
 }

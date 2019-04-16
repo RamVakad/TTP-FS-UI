@@ -1,5 +1,5 @@
 export class PortfolioItem {
-    public stockId ?: Number;
-    public ticker  ?: String;
-    public amount  ?: Number;
+    public stockId: Number;
+    public ticker : String;
+    public amount : number;
 }
