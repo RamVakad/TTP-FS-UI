@@ -112,6 +112,7 @@ export class StockService implements OnDestroy {
           this.companyInfo.set(ticker, data);
         }
       );
+      //
       this.getOhlc(ticker);
       return ticker;
     }
