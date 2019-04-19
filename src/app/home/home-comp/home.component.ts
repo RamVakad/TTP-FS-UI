@@ -54,7 +54,8 @@ export class HomeComponent implements OnInit {
   }
 
   getBalance() {
-    return this.userService.getDetails().balance;
+    var details = this.userService.getDetails();
+    if (details && details.balance) return details.balance; else return 0;
   }
 
   fetchUserDetails() {
